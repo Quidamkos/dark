@@ -65,10 +65,6 @@ function Profil() {
         const expIntoCurrentLevel = experience - experienceForLevel(level);
         const percentage = (expIntoCurrentLevel / totalExpForNextLevel) * 100;
       
-        console.log('Experience into current level:', expIntoCurrentLevel, 
-                    'Total Experience for next level:', totalExpForNextLevel, 
-                    'Percentage:', percentage);
-      
         return `${Math.min(Math.max(percentage, 0), 100)}%`; // Limite entre 0% et 100%
       };
     
@@ -152,7 +148,7 @@ function Profil() {
 
         {viewRank ? (
             
-            <aticle className='allProfil'>
+            <article className='allProfil'>
                 <header>
                         <img className='imgOtherPlayer'  src={personna} alt=""/>
                         <p> Quidam </p>
@@ -167,9 +163,9 @@ function Profil() {
                                 <img className='imgPlayer' src={imageBase64} alt="Uploaded" />  
                             </div>
                         ):(
-                            <div className='imgPlayer'>
+                            <div>
                                 <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageChange} />
-                                <button onClick={triggerFileSelectPopup}>Changer l'image</button>
+                                <button className='imgPlayer' onClick={triggerFileSelectPopup}>Changer l'image</button>
                             </div>        
                         )}
                     </div>
@@ -185,13 +181,8 @@ function Profil() {
                     <div>
                         {viewSettings ? (
                             <div className='name'>
-                                <div className='rankLevel'>
-                                    <p>
-                                        {rank[level]}
-                                    </p>
-                                    <span className='popRank'>
-                                        <p>niveau {level}</p>
-                                    </span></div>
+                                <p>{level}</p>
+                                <p>{rank[level]}</p>
                                 <p>{nickname}</p> 
                             </div>
                         ):(
@@ -233,7 +224,7 @@ function Profil() {
                     </div>
                         <button className='ImpBtn' onClick={changeViewSettings}><FontAwesomeIcon icon={faGear} /></button>
                 </main>
-            </aticle>
+            </article>
         ):(
             <article>
                 {rank.map((value, index) => (

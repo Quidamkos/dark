@@ -17,6 +17,10 @@
         
         }*/
 
+        .listOfFist {
+            @include styleboard;
+        }
+
         .name {
             display: flex;
             gap: 5px;
@@ -132,7 +136,7 @@
                 border:1px solid #000000;
                 border-radius: 10%;
                 width: 100px;
-                height: auto;
+                height: 100px;
                 margin: auto;
             }
 
@@ -152,64 +156,3 @@
     }
 
 }
-
-
-/*
-        display: grid;
-        grid-template-rows: 150px 500px;
-        width: 75%;
-        justify-content: center;
-
-        .otherPlayer {
-
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            
-            .imgother {
-                border-radius: 10%;
-                width: 75px;
-                height: auto;
-            } 
-        }
-        
-        input {
-            width: 50%;
-        }
-        
-        .dataDiv {
-            display: grid;
-            grid-template-rows: 200px repeat(5,1fr);
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-
-            * {
-                display: flex;
-                justify-content: center;
-            }
-
-            img {
-                border-radius: 10%;
-                width: 75%;
-                height: auto;
-            }
-
-            .name {
-                gap: 10px;
-            }
-            
-            .barLevel {
-                width: 100px;
-                height: 10px;
-                background-color: grey;
-                overflow: hidden;
-              
-                .actualBarLevel {
-                  width: 10px;
-                  height: 10px;
-                  background-color: #007BFF;
-                }
-            }
-        }
-*/

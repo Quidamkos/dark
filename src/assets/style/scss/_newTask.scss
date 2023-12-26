@@ -1,14 +1,21 @@
 article {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 
-    h2 {
-        text-align: center;
+    .titre {
+        margin: 100px auto;
     }
 
-    li {
-        display: grid;
-        grid-template-columns: repeat(8, 150px);
+    ul {
+        
+        width: 100%;
+
+        li {
+            display: grid;
+            grid-template-columns: repeat(8, 80px)
+    
+        }
+    }
+
+    .listOfFist{
+        @include styleboard;
     }
 }

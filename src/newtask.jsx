@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function Newtask() {
   const [showRepeat, setShowRepeat] = useState(false);
@@ -13,6 +14,7 @@ function Newtask() {
   };
 
   const [taskDetails, setTaskDetails] = useState({
+    id: uuidv4(),
     startDate: '',
     taskName: '',
     taskCategory: '',
