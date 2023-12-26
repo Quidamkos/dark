@@ -14,6 +14,12 @@ function List() {
         setTasks(loadedTasks);
     }, []);
 
+    useEffect(() => {
+      const settings = { ...storedsettings, experience, money };
+      localStorage.setItem('settings', JSON.stringify(settings));
+    }, [experience, money]);
+    
+
     const getTasksForCategory = (category) => {
         switch (category) {
             case 'En retard':
@@ -30,18 +36,24 @@ function List() {
     };
 
     const validateTask = (taskIdToValidate) => {
-        const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
-        if (taskIndex !== -1) {
-            const task = tasks[taskIndex];
-            setExperience(experience => experience + task.experience);
-            setMoney(money => money + task.money);
-
-            const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-            setTasks(updatedTasks);
-            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        }
-    };
-
+      const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
+      if (taskIndex !== -1) {
+          const task = tasks[taskIndex];
+          
+          // Convertir en nombres et augmenter l'expérience et l'argent
+          setExperience(currentExperience => currentExperience + Number(task.experience));
+          setMoney(currentMoney => currentMoney + Number(task.money));
+      
+          // Supprimer la tâche validée de la liste
+          const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
+          setTasks(updatedTasks);
+      
+          // Mettre à jour le localStorage
+          localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+      }
+  };
+  
+    
     const deleteTaskById = (taskIdToDelete) => {
         const updatedTasks = tasks.filter(task => task.id !== taskIdToDelete);
         setTasks(updatedTasks);
