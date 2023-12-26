@@ -1,0 +1,14 @@
+article {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h2 {
+        text-align: center;
+    }
+
+    li {
+        display: grid;
+        grid-template-columns: repeat(8, 150px);
+    }
+}
