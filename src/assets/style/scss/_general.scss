@@ -50,6 +50,9 @@ body {
             }
             
             .mainSection {
+                display: flex;
+                justify-content:center;
+                align-items: center;
                 @include styleboard;
                 width: 75%;
                 min-height: 75vh;

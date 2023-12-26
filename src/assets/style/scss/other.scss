@@ -1,0 +1,13 @@
+h2 {
+    text-align: center;
+    margin: 10px auto;
+}
+
+input {
+    @include input-style;
+}
+
+div-Btn {
+    display: flex;
+    justify-content: center;
+}

@@ -1,21 +1,28 @@
-article {
+.newTask-article {
 
-    .titre {
-        margin: 100px auto;
-    }
+    color: white;
 
-    ul {
-        
-        width: 100%;
-
-        li {
-            display: grid;
-            grid-template-columns: repeat(8, 80px)
+    width: 100%;
+    height: 100%;
     
-        }
+    .text-input, select {
+        margin: 10px;
+        width: 200px;
+        height: 35px;
+    }
+    
+    .input-Name {
+        
     }
 
-    .listOfFist{
-        @include styleboard;
+    .input-Gain {
+        display: flex;
+        margin-top: 10px;
+
+        .div-gain {
+            text-align: center;
+            margin: 0 auto;
+        }
+
     }
 }

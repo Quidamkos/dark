@@ -65,8 +65,6 @@ function App() {
               ):(
                 <div>
                   <Newtask/> 
-                  <button onClick={changeViewPopUp}>annuler</button>
-                  <button onClick={changeViewPopUp}>enregistrer</button>
                 </div>
               )}
           </section>

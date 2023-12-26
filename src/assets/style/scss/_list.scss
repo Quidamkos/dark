@@ -1,3 +1,17 @@
-.newTask-Container * {
-    margin: 10px;
+article {
+
+    ul {
+        
+        width: 100%;
+
+        li {
+            display: grid;
+            grid-template-columns: repeat(8, 80px)
+    
+        }
+    }
+
+    .listOfFist{
+        @include styleboard;
+    }
 }
