@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { isToday, isThisWeek, isPast, startOfToday } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 function List() {
     const [tasks, setTasks] = useState([]);
@@ -68,20 +71,25 @@ function List() {
         return (
             <li key={task.id}>
                 <p>{task.startDate}</p>
+                <p>{task.category}</p>
                 <p>{task.taskName}</p>
                 <p>{task.startTime}</p>
                 <p>{task.experience}</p>
                 <p>{task.money}</p>
-                <button className='taskBtn' onClick={() => validateTask(task.id)}>valider</button>
-                <button className='taskBtn' onClick={() => deleteTaskById(task.id)}>supprimer</button>
+                <div>
+                  <button className='taskBtn' onClick={() => validateTask(task.id)}>
+                    <FontAwesomeIcon icon={faCheck} />
+                  </button>
+                  <button className='taskBtn' onClick={() => deleteTaskById(task.id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
             </li>
         );
     };
 
     return (
         <article>
-            <h2 className='titre'>Liste des tâches</h2>
-            <div className='listOfFist'>
                 <select onChange={handleCategoryChange} value={selectedCategory}>
                     <option value="En retard">En retard</option>
                     <option value="Aujourd'hui">Aujourd'hui</option>
@@ -91,7 +99,6 @@ function List() {
                 <ul>
                     {getTasksForCategory(selectedCategory).map(renderTask)}
                 </ul>
-            </div>
         </article>
     );
 }

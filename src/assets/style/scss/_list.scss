@@ -5,9 +5,17 @@ article {
         width: 100%;
 
         li {
+            margin: 10px;
             display: grid;
-            grid-template-columns: repeat(8, 80px)
-    
+            grid-template-columns: 
+            3fr 3fr 3fr
+            1fr 1fr 1fr 1fr
+            ;
+
+        }
+
+        .taskBtn {
+            padding: 5px;
         }
     }
 

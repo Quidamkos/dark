@@ -92,13 +92,18 @@ function Newtask() {
   };
 
   const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
+    const newCategory = e.target.value;
+    setSelectedCategory(newCategory); // Mettre à jour la catégorie sélectionnée
+  
+    // Mettre à jour taskDetails avec la nouvelle catégorie
+    setTaskDetails(prevDetails => ({
+      ...prevDetails,
+      category: newCategory // Assurez-vous que la clé 'category' est correcte
+    }));
   };
 
   return (
     <article className="newTask-article">
-
-      <h2>Nouvelle tâche</h2>
 
       <button type="button" onClick={changeViewTask}>Catégorie</button>
       {viewTask ? (
@@ -107,11 +112,11 @@ function Newtask() {
             <form onSubmit={handleSubmit}>
 
               <div className='input-Name'>              
-                <select onChange={handleCategoryChange} value={selectedCategory}>
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>{category}</option>
-                  ))}
-                </select>
+              <select onChange={handleInputChange} value={selectedCategory}>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>{category}</option>
+                ))}
+              </select>
 
                 <input 
                   type="text" 
@@ -189,7 +194,6 @@ function Newtask() {
           </div>
           ) : (
             <div className="newTask-container">
-            <h2>Ajouter une nouvelle catégorie</h2>
             <form onSubmit={handleAddCategory}>
               <input 
                 type="text" 

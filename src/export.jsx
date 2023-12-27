@@ -17,7 +17,7 @@ function ExportLocalStorage() {
     document.body.removeChild(link);
   };
 
-  return <button onClick={exportData}>Exporter les données du localStorage</button>;
+  return <button onClick={exportData}>Sauvegarder</button>;
 }
 
 export default ExportLocalStorage;

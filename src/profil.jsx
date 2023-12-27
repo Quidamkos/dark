@@ -144,86 +144,86 @@ function Profil() {
     const triggerFileSelectPopup = () => fileInputRef.current.click();
 
   return (
-    <section className='profil'>
+    <aside>
 
         {viewRank ? (
             
-            <article className='allProfil'>
-                <header>
-                        <img className='imgOtherPlayer'  src={personna} alt=""/>
+            <article>
+                <div className='stats-otherPlayer stats'>
+                        <img className='img-OtherPlayers'  src={personna} alt=""/>
                         <p> Quidam </p>
                         <p>niveau : {futurLevel}</p>
-                </header>
+                </div>
 
-                <main className='dataDiv'>
+                <div className='stats-mainPlayer stats'>
 
-                    <div>
-                        {viewSettings ? (
-                            <div>
-                                <img className='imgPlayer' src={imageBase64} alt="Uploaded" />  
-                            </div>
-                        ):(
-                            <div>
-                                <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageChange} />
-                                <button className='imgPlayer' onClick={triggerFileSelectPopup}>Changer l'image</button>
-                            </div>        
-                        )}
-                    </div>
+                    {viewSettings ? (
+                        <div>
+                            <img className='img-Player' src={imageBase64} alt="Uploaded" />  
+                        </div>
+                    ):(
+                        <div>
+                            <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageChange} />
+                            <button className='imgPlayer' onClick={triggerFileSelectPopup}>Changer l'image</button>
+                        </div>        
+                    )}
 
-                    <div>
-                        {viewSettings ? (
-                            <Timer/>    
-                        ):(
-                                <input type="date" value={birth} onChange={birthInput}/>
-                        )}
-                    </div>
-                    
-                    <div>
-                        {viewSettings ? (
-                            <div className='name'>
-                                <p>{level}</p>
-                                <p>{rank[level]}</p>
-                                <p>{nickname}</p> 
-                            </div>
-                        ):(
-                            <div className='name'>
-                                <button onClick={changeViewRank}>rangs</button>
-                                    <input type="text" value={nickname} placeholder='pseudo' onChange={nicknameInput}/>
+                    {viewSettings ? (
+                        <Timer/>    
+                    ):(
+                        <div>
+                            <input type="date" value={birth} onChange={birthInput}/>
+                        </div>
+                    )}
 
-                            </div>
-                        )}
-                    </div>
-                        
-                    <div>
-                        {viewSettings ? (
-                            <div className='name'>
-                                <div className='barLevel'>
-                                    <span className='pop'>
-                                        <p>{experience} exp</p>
-                                    </span>
-                                    <div className='actualBarLevel' style={{width:barWidth}} ></div>
-                                </div>
-                            </div>
-                        ):(
-                                <input type="text" value={experience} placeholder='experience' onChange={expInput}/>   
-                        )}
-                    </div>
-                    <div> 
-                        {viewSettings ? (
+                    {viewSettings ? (
+                        <div className='name'>
+                            <p>{level}</p>
+                            <p>{rank[level]}</p>
+                            <p>{nickname}</p> 
+                        </div>
+                    ):(
+                        <div className='name'>
+                            <button onClick={changeViewRank}>rangs</button>
+                            <input type="text" value={nickname} placeholder='pseudo' onChange={nicknameInput}/>
+                        </div>
+                    )}
+
+                    {viewSettings ? (
+                        <div className='name'>
+                            <p>{experience} exp</p>
+                            <p className='barLevel'>
+                                <p className='actualBarLevel' style={{width:barWidth}} ></p>
+                            </p>
+                        </div>
+                    ):(
+                        <div className='name'>
+                            <input type="text" value={experience} placeholder='experience' onChange={expInput}/>   
+                        </div>
+                    )}
+
+                    {viewSettings ? (
+                        <div className='name'>
                             <p>argent : {money}</p>
+                        </div>
+                    ):(
+                        <div className='name'>
+                            <input type="text" value={money} placeholder='argent' onChange={argentInput}/>
+                        </div>
+                    )}
+
+                    {viewSettings ? (
+                            <div className='name'>
+                                <button className='ImpBtn' onClick={changeViewSettings}><FontAwesomeIcon icon={faGear} /></button>
+                            </div>
                         ):(
-                                <input type="text" value={money} placeholder='argent' onChange={argentInput}/>
-                        )}
-                    </div>
-                    <div>
-                        {viewSettings ? (
-                                ''
-                            ):(
+                            <div className='name'>
                                 <button className='deleteBtn' onClick={reset}>supprimer les données</button>
-                        )}
-                    </div>
-                        <button className='ImpBtn' onClick={changeViewSettings}><FontAwesomeIcon icon={faGear} /></button>
-                </main>
+                                <button className='ImpBtn' onClick={changeViewSettings}><FontAwesomeIcon icon={faGear} /></button>
+                            </div>
+                    )}
+
+                </div>
             </article>
         ):(
             <article>
@@ -241,7 +241,7 @@ function Profil() {
                 <button onClick={changeViewRank}>rangs</button>
             </article>
         )}        
-    </section>
+    </aside>
   );
 }
 

@@ -1,16 +1,7 @@
-.couvCalendar {
-    background-color: rgb(46, 1, 108);
-    padding: 10px;
-    margin: 10px;
-    height: 500px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
 .react-calendar {
   width: 350px;
   max-width: 100%;
-  background: white;
+  background: rgb(54, 54, 54);
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
@@ -124,7 +115,7 @@
 }
 
 .react-calendar__tile--now {
-  background: #ffff76;
+  background: #a0a09a;
 }
 
 .react-calendar__tile--now:enabled:hover,
