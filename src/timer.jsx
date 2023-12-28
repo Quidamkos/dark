@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function Timer() {
 
-  const [birth, setBirth] = useState(localStorage.getItem('settings') ? JSON.parse(localStorage.getItem('settings')).birth : '');
+  const [birth, setBirth] = useState(localStorage.getItem('player') ? JSON.parse(localStorage.getItem('player')).birth : '');
 
   const birthDate = new Date(birth);
   // Ajoutez 80 ans à birthDate pour obtenir futureDate

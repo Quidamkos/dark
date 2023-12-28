@@ -8,7 +8,7 @@ function List() {
     const [tasks, setTasks] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('Aujourd\'hui');
 
-    const storedsettings = JSON.parse(localStorage.getItem('settings'));
+    const storedsettings = JSON.parse(localStorage.getItem('player'));
     const [experience, setExperience] = useState(storedsettings ? storedsettings.experience : 0);
     const [money, setMoney] = useState(storedsettings ? storedsettings.money : 0);
   
@@ -19,7 +19,7 @@ function List() {
 
     useEffect(() => {
       const settings = { ...storedsettings, experience, money };
-      localStorage.setItem('settings', JSON.stringify(settings));
+      localStorage.setItem('player', JSON.stringify(settings));
     }, [experience, money]);
     
 
@@ -39,22 +39,34 @@ function List() {
     };
 
     const validateTask = (taskIdToValidate) => {
-      const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
-      if (taskIndex !== -1) {
-          const task = tasks[taskIndex];
+        const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
+        if (taskIndex !== -1) {
+          const updatedTasks = [...tasks];
+          const task = updatedTasks[taskIndex];
           
-          // Convertir en nombres et augmenter l'expérience et l'argent
-          setExperience(currentExperience => currentExperience + Number(task.experience));
-          setMoney(currentMoney => currentMoney + Number(task.money));
+          if (task.repDay > 0) {
+            // Réduire le nombre de répétitions de 1
+            task.repDay -= 1;
       
-          // Supprimer la tâche validée de la liste
-          const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-          setTasks(updatedTasks);
+            // Convertir en nombres et augmenter l'expérience et l'argent
+            setExperience(currentExperience => currentExperience + Number(task.experience));
+            setMoney(currentMoney => currentMoney + Number(task.money));
       
-          // Mettre à jour le localStorage
-          localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-      }
-  };
+            // Si le nombre de répétitions atteint 0, supprimer la tâche
+            if (task.repDay === 0) {
+              updatedTasks.splice(taskIndex, 1); // Supprimer la tâche du tableau
+              localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Mettre à jour le local storage
+            } else {
+              // Si le nombre de répétitions n'est pas encore à zéro, mettre à jour le localStorage
+              localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+            }
+      
+            // Mettre à jour l'état des tâches
+            setTasks(updatedTasks);
+          }
+        }
+      };
+      
   
     
     const deleteTaskById = (taskIdToDelete) => {
@@ -70,9 +82,10 @@ function List() {
     const renderTask = (task) => {
         return (
             <li key={task.id}>
+                <p>{task.repDay}</p>
                 <p>{task.startDate}</p>
                 <p>{task.category}</p>
-                <p>{task.taskName}</p>
+                <p>{task.type}</p>
                 <p>{task.startTime}</p>
                 <p>{task.experience}</p>
                 <p>{task.money}</p>

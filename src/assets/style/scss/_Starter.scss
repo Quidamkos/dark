@@ -1,0 +1,22 @@
+.starter-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25vh;
+
+    .fire-Logo {
+        width: 75px;
+        height: 75px;
+        margin: 50px;
+    }
+    .div-starter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        @include styleboard;
+        width: 50vw;
+        height: 50vh;
+    }
+}

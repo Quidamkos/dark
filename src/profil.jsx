@@ -22,7 +22,7 @@ function experienceForLevel(level) {
 
 function Profil() {
     
-    const storedsettings = JSON.parse(localStorage.getItem('settings'));
+    const storedsettings = JSON.parse(localStorage.getItem('player'));
     
     const [birth, setBirth] = useState(storedsettings ? storedsettings.birth : '');
     const [nickname, setNickname] = useState(storedsettings ? storedsettings.nickname : '');
@@ -30,13 +30,12 @@ function Profil() {
     const [money, setMoney] = useState(storedsettings ? storedsettings.money : 0);
     const [rank, setRank] = useState(storedsettings ? storedsettings.rank : []);
     
-        
     const [level, setLevel] = useState(0);
     const [futurLevel, setFuturLevel] = useState(50);
     
     useEffect(() => {
         const settings = JSON.stringify({ birth, nickname, experience, money, rank });
-        localStorage.setItem('settings', settings);
+        localStorage.setItem('player', settings);
       }, [birth, nickname, experience, money, rank]);
 
     useEffect(() => {
@@ -83,11 +82,7 @@ function Profil() {
     
 
     const reset = () => {
-        setBirth('');
-        setNickname('');
-        setRank('');
-        setExperience(0);
-        setMoney(0);
+        localStorage.clear();
     };
 
     const nicknameInput = (e) => {
@@ -125,7 +120,7 @@ function Profil() {
 
     const currentLevelExperience = experience - experienceForLevel(level);
 
-    const [imageBase64, setImageBase64] = useState(localStorage.getItem('savedImage') || personna);
+    const [imageBase64, setImageBase64] = useState(localStorage.getItem('photoProfil') || personna);
     const fileInputRef = useRef();
 
     const handleImageChange = (e) => {
@@ -135,7 +130,7 @@ function Profil() {
         reader.onloadend = () => {
         const base64String = reader.result;
         setImageBase64(base64String);
-        localStorage.setItem('savedImage', base64String);
+        localStorage.setItem('photoProfil', base64String);
         };
         reader.readAsDataURL(file);
     }
@@ -149,6 +144,7 @@ function Profil() {
         {viewRank ? (
             
             <article>
+
                 <div className='stats-otherPlayer stats'>
                         <img className='img-OtherPlayers'  src={personna} alt=""/>
                         <p> Quidam </p>
@@ -192,9 +188,9 @@ function Profil() {
                     {viewSettings ? (
                         <div className='name'>
                             <p>{experience} exp</p>
-                            <p className='barLevel'>
+                            <div className='barLevel'>
                                 <p className='actualBarLevel' style={{width:barWidth}} ></p>
-                            </p>
+                            </div>
                         </div>
                     ):(
                         <div className='name'>

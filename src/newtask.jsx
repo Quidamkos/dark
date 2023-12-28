@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function Newtask() {
-  const storedCategory = JSON.parse(localStorage.getItem('settings'));
+  const storedCategory = JSON.parse(localStorage.getItem('player'));
 
   const [viewTask, setViewTask] = useState(true);
 
@@ -26,16 +26,21 @@ function Newtask() {
   };
 
   const [taskDetails, setTaskDetails] = useState({
-    id: uuidv4(),
+
     startDate: '',
-    taskName: '',
+    type: '',
     Category: '',
+    
+    repDay: '1', 
     
     startTime: '',
     duringTime: '',
-
+    
     experience: '',
     money: '',
+
+    id: uuidv4(),
+
   });
 
   const handleInputChange = (event) => {
@@ -112,21 +117,31 @@ function Newtask() {
             <form onSubmit={handleSubmit}>
 
               <div className='input-Name'>              
-              <select onChange={handleInputChange} value={selectedCategory}>
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>{category}</option>
-                ))}
-              </select>
+                <select onChange={handleInputChange} value={selectedCategory}>
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>{category}</option>
+                  ))}
+                </select>
 
                 <input 
-                  type="text" 
-                  name="taskName" 
-                  value={taskDetails.taskName} 
-                  onChange={handleInputChange} 
+                    type="text" 
+                    name="type" 
+                    value={taskDetails.type} 
+                    onChange={handleInputChange} 
+                    className="text-input" 
+                    placeholder="nom de la tache"
+                />
+                <input 
+                  type="number" 
+                  name="repDay" 
+                  value={taskDetails.repDay} 
+                  onChange={handleInputChange}
+                  min="1"
                   className="text-input" 
-                  placeholder="Nom de la tâche"
+                  placeholder="nombre de fois"
                 />
               </div>
+
 
               <div className='input-time'>
                 <input 
