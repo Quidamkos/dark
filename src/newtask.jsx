@@ -6,9 +6,11 @@ function Newtask() {
 
   const [viewTask, setViewTask] = useState(true);
 
-  const [showRepeat, setShowRepeat] = useState(false);
+  const [showRepeat, setShowRepeat] = useState(!false);
   const [showAllDay, setShowAllDay] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [selectedOption, setSelectedOption] = useState('only');
   
   const changeViewTask = () => {
     setViewTask(!viewTask);
@@ -32,6 +34,7 @@ function Newtask() {
     Category: '',
     
     repDay: '1', 
+    Period: '',
     
     startTime: '',
     duringTime: '',
@@ -45,12 +48,24 @@ function Newtask() {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
+  
+    if (type === 'checkbox') {
+      setTaskDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: checked,
+      }));
+    } else {
+      setTaskDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: value,
+      }));
+    }
+  
+    if (name === 'Period') {
+      setSelectedOption(value);
+    }
   };
+  
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Empêche la soumission par défaut
@@ -175,6 +190,42 @@ function Newtask() {
                 ) : (
                   ""
                 )}
+              </div>
+
+              <div>
+              <input type="checkbox" onClick={repeat}/>
+                  {showRepeat ? (
+                      <div>
+                      <input type="checkbox"/>
+                      <span>Période type</span>
+                      <div>
+                          <span>Tous les :</span>
+                          <select
+                            name="Period"
+                            value={selectedOption} 
+                            onChange={handleInputChange} 
+                          >
+                            <option value="only">en 1 fois</option>
+                            <option value="day">Jours</option>
+                            <option value="week">Semaines</option>
+                            <option value="month">Mois</option>
+                            <option value="year">Années</option>
+                          </select>
+                      </div>
+                      <div>
+                          <span>Semaine :</span>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                          <input type="checkbox"/>
+                      </div>
+                      </div>
+                  ) : (
+                      ""
+                  )}
               </div>
 
               <div className='input-Gain'>

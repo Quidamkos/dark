@@ -45,7 +45,7 @@ function App() {
     const audio = new Audio(clickSound);
     audio.play();
   };
-
+  
   const StarterStory = () => {
     setIsSaved(!isSaved);
     setStarterView(!starterView);

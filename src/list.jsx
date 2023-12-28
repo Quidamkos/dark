@@ -47,23 +47,37 @@ function List() {
           if (task.repDay > 0) {
             // Réduire le nombre de répétitions de 1
             task.repDay -= 1;
-      
+        
             // Convertir en nombres et augmenter l'expérience et l'argent
             setExperience(currentExperience => currentExperience + Number(task.experience));
             setMoney(currentMoney => currentMoney + Number(task.money));
-      
+        
             // Si le nombre de répétitions atteint 0, supprimer la tâche
             if (task.repDay === 0) {
-              updatedTasks.splice(taskIndex, 1); // Supprimer la tâche du tableau
-              localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Mettre à jour le local storage
+                if (task.Period === 'day') {
+                    const startDate = new Date(task.startDate);
+                    startDate.setDate(startDate.getDate() + 1); // Augmente la date d'un jour
+                  
+                    // Mettre à jour la tâche dans le tableau des tâches
+                    updatedTasks[taskIndex] = task;
+                  
+                    // Mettre à jour le local storage
+                    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+                } else {
+                    updatedTasks.splice(taskIndex, 1); // Supprimer la tâche du tableau
+                    localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Mettre à jour le local storage
+                }
             } else {
-              // Si le nombre de répétitions n'est pas encore à zéro, mettre à jour le localStorage
-              localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+                // Si le nombre de répétitions n'est pas encore à zéro, mettre à jour le localStorage
+                localStorage.setItem('tasks', JSON.stringify(updatedTasks));
             }
-      
+        
             // Mettre à jour l'état des tâches
             setTasks(updatedTasks);
-          }
+        }
+        
+            
+        
         }
       };
       

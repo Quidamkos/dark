@@ -1,58 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Starter() {
     const [infoNumber, setInfoNumber] = useState(0);
     const [indexBtn, setIndexBtn] = useState(0);
-    const [currentTarget, setCurrentTarget] = useState('nickname'); // État pour suivre la cible actuelle
-    const [inputValue, setInputValue] = useState(''); // État pour le champ de texte
+    const [inputNeed, setInputNeed] = useState(false);
+    const [currentTarget, setCurrentTarget] = useState('nickname');
+    const [inputValue, setInputValue] = useState('');
 
-    // Tableau d'objets pour les phrases des inputs
     const inputPhrases = [
-        { name: 'nickname', phrase: "oh, salut, comment tu vas ?" },
-        { name: 'birth', phrase: "Phrase 2 pour la date de naissance" },
+        {
+            name: 'who',
+            phrase: "une minute... qui est la ?",
+            Btn: 'continue',
+        },
+        {
+            name: 'Nickname',
+            phrase: "d'accord quel est ton nom ?",
+            Btn: 'continue',
+        },
+        {
+            name: 'birth',
+            phrase: "Quel est ton âge ?",
+            Btn: 'continue',
+        },
+        {
+            name: 'birth',
+            phrase: "Quel est ton âge ?",
+            Btn: 'continue',
+        },
     ];
 
-    const targets = ['nickname', 'birth']; // Tableau des cibles possibles
+    const targets = [
+        'nickname',
+        'birth',
+    ];
+
+    const [text, setText] = useState(''); // Texte à afficher
+    const [textIndex, setTextIndex] = useState(0); // Index de la lettre actuelle
+    const minTypingSpeed = 50; // Vitesse minimale de frappe en millisecondes
+    const maxTypingSpeed = 150; // Vitesse maximale de frappe en millisecondes
+
+    useEffect(() => {
+        // Réinitialise l'index du texte lorsque indexBtn change
+        setTextIndex(0);
+    }, [indexBtn]);
+
+    useEffect(() => {
+        // Si l'index du texte est inférieur à la longueur du texte à afficher, continuez à ajouter des lettres
+        if (textIndex < inputPhrases[indexBtn].phrase.length) {
+            const typingSpeed = Math.floor(Math.random() * (maxTypingSpeed - minTypingSpeed + 1)) + minTypingSpeed;
+            const timer = setTimeout(() => {
+                setText(inputPhrases[indexBtn].phrase.substring(0, textIndex + 1)); // Ajoute une lettre à chaque itération
+                setTextIndex(textIndex + 1); // Incrémente l'index du texte
+            }, typingSpeed);
+
+            return () => {
+                clearTimeout(timer); // Nettoie le timer lorsque le composant est démonté
+            };
+        }
+    }, [textIndex, inputPhrases, indexBtn]);
 
     const changeInfoDiv = () => {
-        // Incrémente infoNumber
         setInfoNumber(prevInfoNumber => prevInfoNumber + 1);
 
-        // Change les phrases dans les états en fonction de l'index
         const newIndexBtn = (indexBtn + 1) % inputPhrases.length;
-        setIndexBtn(newIndexBtn); // Boucle à travers les phrases
+        setIndexBtn(newIndexBtn);
 
-        // Passe à la prochaine cible dans le tableau des cibles possibles
         const nextTargetIndex = (targets.indexOf(currentTarget) + 1) % targets.length;
         setCurrentTarget(targets[nextTargetIndex]);
 
-        // Efface la valeur de l'input
-        setInputValue('');
-        const playerData = JSON.parse(localStorage.getItem('player')) || {};
-        if (currentTarget === 'nickname') {
-            playerData.nickname = inputValue;
-        } else if (currentTarget === 'birth') {
-            playerData.birth = inputValue;
+        if ([0, 1].includes(newIndexBtn)) {
+            setInputNeed(true);
+        } else {
+            setInputNeed(false);
         }
-        localStorage.setItem('player', JSON.stringify(playerData));
+
+        setInputValue('');
+        if (inputValue !== '') {
+            const playerData = JSON.parse(localStorage.getItem('player')) || {};
+            if (currentTarget === 'nickname') {
+                playerData.nickname = inputValue;
+            } else if (currentTarget === 'birth') {
+                playerData.birth = inputValue;
+            }
+            localStorage.setItem('player', JSON.stringify(playerData));
+        }
     };
-
-
 
     return (
         <article className='starter-container'>
             <div className='div-starter'>
                 <div className='task-Starter'>
-                    <p>{inputPhrases[indexBtn].phrase}</p>
+                    <p>{text}</p>
                 </div>
-                <input
-                    type="text"
-                    placeholder={currentTarget}
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                />
+
+                {inputNeed && (
+                    <input
+                        type="text"
+                        placeholder={currentTarget}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                    />
+                )}
+
                 <button className='ImpBtn' onClick={changeInfoDiv}>
-                    {inputPhrases[indexBtn].phrase}
+                    {inputPhrases[indexBtn].Btn}
                 </button>
             </div>
         </article>
