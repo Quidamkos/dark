@@ -1,70 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import ImportLocalStorage from './import.jsx';
+function Starter() {
+    const [infoNumber, setInfoNumber] = useState(0);
+    const [indexBtn, setIndexBtn] = useState(0);
+    const [currentTarget, setCurrentTarget] = useState('nickname'); // État pour suivre la cible actuelle
+    const [inputValue, setInputValue] = useState(''); // État pour le champ de texte
 
-import clickSound from './assets/autre/sound/clickSound.mp3';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFire } from '@fortawesome/free-solid-svg-icons';
+    // Tableau d'objets pour les phrases des inputs
+    const inputPhrases = [
+        { name: 'nickname', phrase: "oh, salut, comment tu vas ?" },
+        { name: 'birth', phrase: "Phrase 2 pour la date de naissance" },
+    ];
 
-function starter() {
+    const targets = ['nickname', 'birth']; // Tableau des cibles possibles
 
-    const [whatName, setWhatname] = useState(true);
-    const [whatAge, setWhatAge] = useState(false);
-    const [whatLevel, setWhatLevel] = useState(false);
+    const changeInfoDiv = () => {
+        // Incrémente infoNumber
+        setInfoNumber(prevInfoNumber => prevInfoNumber + 1);
 
-      const whatIsYourAge = () => {
-        setWhatname(!whatName);
-        setWhatAge(!whatAge);
-        const audio = new Audio(clickSound);
-        audio.play();
-      };
+        // Change les phrases dans les états en fonction de l'index
+        const newIndexBtn = (indexBtn + 1) % inputPhrases.length;
+        setIndexBtn(newIndexBtn); // Boucle à travers les phrases
 
-      const whatIsYourLevel = () => {
-        setWhatAge(!whatAge);
-        setWhatLevel(!whatLevel);
-        const audio = new Audio(clickSound);
-        audio.play();
-      };
+        // Passe à la prochaine cible dans le tableau des cibles possibles
+        const nextTargetIndex = (targets.indexOf(currentTarget) + 1) % targets.length;
+        setCurrentTarget(targets[nextTargetIndex]);
+
+        // Efface la valeur de l'input
+        setInputValue('');
+        const playerData = JSON.parse(localStorage.getItem('player')) || {};
+        if (currentTarget === 'nickname') {
+            playerData.nickname = inputValue;
+        } else if (currentTarget === 'birth') {
+            playerData.birth = inputValue;
+        }
+        localStorage.setItem('player', JSON.stringify(playerData));
+    };
 
 
 
-  return (
-    <article className='starter-container'>
-
-        {whatName && (
+    return (
+        <article className='starter-container'>
             <div className='div-starter'>
                 <div className='task-Starter'>
-                    <p>quel est ton nom ?</p>
+                    <p>{inputPhrases[indexBtn].phrase}</p>
                 </div>
-                <input type="text" />
-                <button className='ImpBtn' onClick={whatIsYourAge}>continue</button>
+                <input
+                    type="text"
+                    placeholder={currentTarget}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button className='ImpBtn' onClick={changeInfoDiv}>
+                    {inputPhrases[indexBtn].phrase}
+                </button>
             </div>
-        )}
-
-        {whatAge && (
-            <div className='div-starter'>
-                <div className='task-Starter'>
-                    <p>quel est ton age ?</p>
-                </div>
-                <input type="date" />
-                <button className='ImpBtn' onClick={whatIsYourLevel}>continue</button>
-            </div>
-        )}
-
-        {whatLevel && (
-            <div className='div-starter'>
-                <div className='task-Starter'>
-                    <p>quel est ton niveau ?</p>
-                </div>
-                <button className='ImpBtn' onClick={whatIsYourAge}>continue</button>
-            </div>
-        )} 
-
-        <section>
-            
-        </section>
-    </article>
-  );
+        </article>
+    );
 }
 
-export default starter;
+export default Starter;
