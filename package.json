@@ -8,6 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
