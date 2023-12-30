@@ -84,63 +84,11 @@ function App() {
     
   };
 
-  const [viewCalendar, setViewCalendar] = useState(false);
-  const [viewList, setViewList] = useState(false);
-  const [viewNewTask, setNewtask] = useState(false);
-
-  const changeViewCalendar = () => {
-    setViewCalendar(true);
-    setViewList(true);
-    setNewtask(false);
-    soundBtn();
-  };
-
-  const changeViewList = () => {
-    setViewCalendar(false);
-    setViewList(true);
-    setNewtask(false);
-
-    soundBtn();
-  };
-
-  const changeViewNewTask = () => {
-    setViewCalendar(false);
-    setViewList(false);
-    setNewtask(true);
-    soundBtn();
-  };
 
   return (
 
       <>
-        <main className='main'>
-
-          <section className='board'>
-            <article>
-              <button className='ImpBtn' onClick={changeViewNewTask}><FontAwesomeIcon icon={faPlus} /></button>
-              <button className='ImpBtn' onClick={changeViewList}>coucou</button>
-              <button className='ImpBtn' onClick={changeViewCalendar}><FontAwesomeIcon icon={faCalendarDays} /></button>
-              {viewCalendar && (<div><Calendar /><CalendarNow/></div>)}
-              {viewList && (<List />)}
-              {viewNewTask && (<Newtask />)}
-            </article>
-          </section>
-
-            <section className='profil'>
-              <Profil/>
-            </section>
-
-
-
-
-        </main>
-    </>
-  )
-}
-
-export default App
-
-/*
+        {isSettingsEmpty   ? (
           <div>
             {isSaved && (
               <article className='starter-container'>
@@ -163,4 +111,42 @@ export default App
               <Starter/>
             )}
           </div>
-          */
+          ) : (
+            <main className='main'>
+              
+              <section className='board section-app'>
+                  {showPopUp ? (
+                    viewTask ? (
+                      <article className='test'>
+                          <button className='ImpBtn' onClick={changeViewPopUp}><FontAwesomeIcon icon={faPlus} /></button>
+                          <button className='ImpBtn' onClick={changeViewTask}><FontAwesomeIcon icon={faCalendarDays} /></button>
+                            <h2 className='titre'>Calendrier</h2>
+                            <Calendar/>
+                            <CalendarNow/>
+                        </article>
+                      ) : (
+                        <article>
+                          <h2 className='titre'>Liste des tâches</h2>
+                          <List/>
+                        </article>
+                      )
+                  ):(
+                    <article>
+                      <h2 className='titre'>Nouvelle tache</h2>
+                      <Newtask/> 
+                    </article>
+                  )}
+              </section>
+
+              <section className='profil'>
+                <Profil/>
+              </section>
+
+            </main>
+          )}
+
+    </>
+  )
+}
+
+export default App

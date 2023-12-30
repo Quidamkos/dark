@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { isToday, isThisWeek, isPast, startOfToday } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
 function List() {
     const [tasks, setTasks] = useState([]);
@@ -41,45 +43,48 @@ function List() {
     const validateTask = (taskIdToValidate) => {
         const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
         if (taskIndex !== -1) {
-          const updatedTasks = [...tasks];
-          const task = updatedTasks[taskIndex];
-          
-          if (task.repDay > 0) {
+            const updatedTasks = [...tasks];
+            const task = updatedTasks[taskIndex];
+            
             // Réduire le nombre de répétitions de 1
             task.repDay -= 1;
-        
+          
             // Convertir en nombres et augmenter l'expérience et l'argent
             setExperience(currentExperience => currentExperience + Number(task.experience));
             setMoney(currentMoney => currentMoney + Number(task.money));
-        
-            // Si le nombre de répétitions atteint 0, supprimer la tâche
+          
             if (task.repDay === 0) {
-                if (task.Period === 'day') {
-                    const startDate = new Date(task.startDate);
-                    startDate.setDate(startDate.getDate() + 1); // Augmente la date d'un jour
-                  
-                    // Mettre à jour la tâche dans le tableau des tâches
-                    updatedTasks[taskIndex] = task;
-                  
-                    // Mettre à jour le local storage
-                    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+                if (task.Period === 'only') {
+                    console.log('hello')
+                    // Si la période est "en 1 fois", supprimer la tâche
+                    updatedTasks.splice(taskIndex, 1);
                 } else {
-                    updatedTasks.splice(taskIndex, 1); // Supprimer la tâche du tableau
-                    localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Mettre à jour le local storage
+                    // Sinon, augmenter la startDate selon la période
+                    const startDate = new Date(task.startDate);
+                    if (task.Period === 'day') {
+                        startDate.setDate(startDate.getDate() + 1);
+                    } else if (task.Period === 'week') {
+                        startDate.setDate(startDate.getDate() + 7);
+                    } else if (task.Period === 'year') {
+                        startDate.setFullYear(startDate.getFullYear() + 1);
+                    }
+                    task.startDate = startDate.toISOString().split('T')[0];
+                    task.repDay = task.repSave;
                 }
-            } else {
-                // Si le nombre de répétitions n'est pas encore à zéro, mettre à jour le localStorage
-                localStorage.setItem('tasks', JSON.stringify(updatedTasks));
             }
-        
+    
+            // Mettre à jour le localStorage
+            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+          
             // Mettre à jour l'état des tâches
             setTasks(updatedTasks);
         }
-        
-            
-        
-        }
-      };
+    };
+    
+    function formatDate(isoDateString) {
+        const date = new Date(isoDateString);
+        return date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
       
   
     
@@ -97,12 +102,12 @@ function List() {
         return (
             <li key={task.id}>
                 <p>{task.repDay}</p>
-                <p>{task.startDate}</p>
+                <p>{formatDate(task.startDate)}</p>
                 <p>{task.category}</p>
                 <p>{task.type}</p>
                 <p>{task.startTime}</p>
-                <p>{task.experience}</p>
-                <p>{task.money}</p>
+                <p>{task.experience} exp</p>
+                <p>{task.money} <FontAwesomeIcon icon={faCoins} /></p>
                 <div>
                   <button className='taskBtn' onClick={() => validateTask(task.id)}>
                     <FontAwesomeIcon icon={faCheck} />
@@ -116,17 +121,18 @@ function List() {
     };
 
     return (
-        <article>
-                <select onChange={handleCategoryChange} value={selectedCategory}>
-                    <option value="En retard">En retard</option>
-                    <option value="Aujourd'hui">Aujourd'hui</option>
-                    <option value="Cette semaine">Cette semaine</option>
-                    <option value="Plus tard">Plus tard</option>
-                </select>
-                <ul>
-                    {getTasksForCategory(selectedCategory).map(renderTask)}
-                </ul>
-        </article>
+        <div>
+            <h2 className='titre'>Liste des tâches</h2>
+            <select onChange={handleCategoryChange} value={selectedCategory}>
+                <option value="En retard">En retard</option>
+                <option value="Aujourd'hui">Aujourd'hui</option>
+                <option value="Cette semaine">Cette semaine</option>
+                <option value="Plus tard">Plus tard</option>
+            </select>
+            <ul>
+                {getTasksForCategory(selectedCategory).map(renderTask)}
+            </ul>
+        </div>
     );
 }
 

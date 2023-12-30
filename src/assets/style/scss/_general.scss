@@ -1,68 +1,44 @@
-
-body {
-    
-    @include wallpaper;
-    color: white;
-    width: 100vw;
-    height: 100vh;
-
 main {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 100vh 100vh;
 
-    .starter-container {
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 25vh;
+    section {
+        .profil {
+            height: 100%;
+            display: grid;
+            grid-template-rows: 20% 80%;
+            
+            .otherplayers {
+                display: grid;
+                grid-template-columns: 10% 80% 10%;
+            }
+            
+            .player {
+                
+            }
+    
+        }                
     }
 
-    .test {
+    .board {
         
-        display: grid;
-        grid-template-columns: 1fr 10fr 2fr;
-
-        nav {
-            @include styleboard;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            width: 50px;
-            padding: 10px;
-
-            * {
-                margin: 5px 0;
-            }
-        }
-        
-        .main {
-            height: 70vh;
-        }
-
-        section {
-            padding: 10px;
-            @include styleboard;
-            margin: 10px;
-        }
-
-
-        footer {
-            bottom: 0;
-            grid-column: 1/4;
-
-            section {
-                display: flex;
-                justify-content: end;
-
-                * {
-                    margin: 5px;
-                }
-            }
+        article {
+            height: 100%;
         }
 
     }
 }
+
+
+
+
+@media screen and (min-width: 1000px) {
     
+    main {
+        grid-template-columns: 80% 20%;
+        grid-template-rows: 1fr;
+
+    }
+
 }
-    
-    
-    

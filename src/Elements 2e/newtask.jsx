@@ -33,11 +33,12 @@ function Newtask() {
     type: '',
     Category: '',
     
-    repDay: '1', 
+    repDay: '1',
+    repSave: '',
     Period: '',
     
     startTime: '',
-    duringTime: '',
+    duringTime: '30',
     
     experience: '',
     money: '',
@@ -48,12 +49,15 @@ function Newtask() {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
+
+
   
     if (type === 'checkbox') {
       setTaskDetails((prevDetails) => ({
         ...prevDetails,
         [name]: checked,
       }));
+      
     } else {
       setTaskDetails((prevDetails) => ({
         ...prevDetails,
@@ -64,16 +68,40 @@ function Newtask() {
     if (name === 'Period') {
       setSelectedOption(value);
     }
+
+    if (name === 'Category') {
+      setSelectedOption(value);
+    }
   };
   
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Empêche la soumission par défaut
-    const updatedTasks = [...getTasksFromLocalStorage(), taskDetails];
+    event.preventDefault();
+
+    if (taskDetails.duringTime <= 0) {
+      alert("La durée doit être un nombre positif.");
+      return;
+    }
+
+    if (!taskDetails.type) {
+      alert("Veuillez entrer le nom de la tâche.");
+      return;
+    }
+    // Mettre à jour repSave et Period avant de sauvegarder
+    const updatedTaskDetails = {
+      ...taskDetails,
+      repSave: taskDetails.repDay,
+      Period: selectedOption, // Assurez-vous que cela reflète la sélection actuelle
+      category: selectedCategory,
+      id: uuidv4() // Générer un nouvel ID pour chaque nouvelle tâche
+    };
+  
+    const updatedTasks = [...getTasksFromLocalStorage(), updatedTaskDetails];
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     alert('Tâche sauvegardée !');
-    // Réinitialisez taskDetails ou naviguez vers une autre page si nécessaire
+    // Réinitialiser taskDetails ou naviguer vers une autre page si nécessaire
   };
+
 
   const getTasksFromLocalStorage = () => {
     // Retrieve the tasks from localStorage and parse the JSON string to an object.
@@ -123,7 +151,8 @@ function Newtask() {
   };
 
   return (
-    <article className="newTask-article">
+    <div className="newTask-article">
+      <h2 className='titre'>Nouvelle tache</h2>
 
       <button type="button" onClick={changeViewTask}>Catégorie</button>
       {viewTask ? (
@@ -131,12 +160,16 @@ function Newtask() {
           <div>
             <form onSubmit={handleSubmit}>
 
-              <div className='input-Name'>              
-                <select onChange={handleInputChange} value={selectedCategory}>
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>{category}</option>
-                  ))}
-                </select>
+              <div className='input-Name'>
+              <select
+                name="Category"
+                value={selectedCategory} 
+                onChange={handleInputChange} 
+              >          
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>{category}</option>
+                ))}
+              </select>
 
                 <input 
                     type="text" 
@@ -145,6 +178,7 @@ function Newtask() {
                     onChange={handleInputChange} 
                     className="text-input" 
                     placeholder="nom de la tache"
+                    maxLength={15}
                 />
                 <input 
                   type="number" 
@@ -212,7 +246,7 @@ function Newtask() {
                             <option value="year">Années</option>
                           </select>
                       </div>
-                      <div>
+                      {/*<div>
                           <span>Semaine :</span>
                           <input type="checkbox"/>
                           <input type="checkbox"/>
@@ -221,7 +255,7 @@ function Newtask() {
                           <input type="checkbox"/>
                           <input type="checkbox"/>
                           <input type="checkbox"/>
-                      </div>
+                  </div>*/}
                       </div>
                   ) : (
                       ""
@@ -283,7 +317,7 @@ function Newtask() {
           
 
 
-    </article>
+    </div>
   );
 }
 

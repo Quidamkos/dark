@@ -4,31 +4,33 @@
     box-sizing: border-box;
 }
 
-article {
-}
-
-h2 {
-    text-align: center;
-    margin: 10px 0;
-}
-
 body {
-    border: 1px solid rgb(255, 255, 255);
+    @include wallpaper;
 }
 
-mainy {
-    border: 1px solid red;
+img {
+    width: 100px;
+}
+section{
+    padding: 5px
 }
 
-sectionh {
-    border: 1px solid rgb(0, 255, 191);
+article {
+    @include styleboard;
+    padding: 10px;
 }
 
-divf {
-    border: 1px solid rgb(51, 255, 0);
-}
 
-pg {
-    border: 1px solid rgb(255, 230, 0);
-}
+.barreExperience {
+    border-radius: 50px;
+    border: 1px solid white;
+    background-color: black;
+    overflow: hidden;
+    width: 50%;
+    height: 15px;
 
+    .currentExperience {
+        background-color: rgb(255, 255, 255);
+        height: 15px;
+    }
+}
