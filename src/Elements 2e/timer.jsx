@@ -29,7 +29,7 @@ function Timer() {
 
   const formattedRemainingSeconds = formatNumberWithSpaces(remainingSeconds);
 
-  return <div>{formattedRemainingSeconds}</div>
+  return <div className='timer'>{formattedRemainingSeconds}</div>
 }
 
 export default Timer;

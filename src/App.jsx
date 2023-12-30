@@ -14,6 +14,8 @@ import Calendar from 'react-calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faListCheck } from '@fortawesome/free-solid-svg-icons';
+import { faShop } from '@fortawesome/free-solid-svg-icons';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
 
 import { soundBtn } from './Functions/sound.jsx';
@@ -43,26 +45,6 @@ function App() {
     checkSettings();
   }, [dataImported]);
 
-  const changeNormalView = () => {
-    setStarterView(!SarterView);
-  };
-  
-  const StarterStory = () => {
-    setIsSaved(!isSaved);
-    setStarterView(!starterView);
-    soundBtn();
-  };
-
-  const changeViewPopUp = () => {
-    setShowPopUp(!showPopUp);
-    soundBtn();
-  };
-
-  const changeViewTask = () => {
-    setViewTask(!viewTask);
-    soundBtn();
-  };
-
   const importData = (event) => {
     const file = event.target.files[0];
     if (!file) {
@@ -84,13 +66,13 @@ function App() {
     
   };
 
-  const [viewCalendar, setViewCalendar] = useState(false);
+  const [viewCalendar, setViewCalendar] = useState(true);
   const [viewList, setViewList] = useState(false);
   const [viewNewTask, setNewtask] = useState(false);
 
   const changeViewCalendar = () => {
     setViewCalendar(true);
-    setViewList(true);
+    setViewList(false);
     setNewtask(false);
     soundBtn();
   };
@@ -117,9 +99,12 @@ function App() {
 
           <section className='board'>
             <article>
-              <button className='ImpBtn' onClick={changeViewNewTask}><FontAwesomeIcon icon={faPlus} /></button>
-              <button className='ImpBtn' onClick={changeViewList}>coucou</button>
-              <button className='ImpBtn' onClick={changeViewCalendar}><FontAwesomeIcon icon={faCalendarDays} /></button>
+              <nav>
+                <button className='ImpBtn' onClick={changeViewNewTask}><FontAwesomeIcon icon={faPlus} /></button>
+                <button className='ImpBtn' onClick={changeViewList}><FontAwesomeIcon icon={faListCheck} /></button>
+                <button className='ImpBtn' onClick={changeViewCalendar}><FontAwesomeIcon icon={faCalendarDays} /></button>
+                <button className='ImpBtn' onClick={changeViewCalendar}><FontAwesomeIcon icon={faShop} /></button>
+              </nav>
               {viewCalendar && (<div><Calendar /><CalendarNow/></div>)}
               {viewList && (<List />)}
               {viewNewTask && (<Newtask />)}

@@ -8,25 +8,44 @@ body {
     @include wallpaper;
 }
 
-img {
-    width: 100px;
+nav {
+    @include styleboardClassic;
+    display: flex;
+    * {
+        margin: 5px;
+    }
 }
+
+img {
+    border-radius: 10%;
+}
+
 section{
-    padding: 5px
+    padding: 30px
 }
 
 article {
-    @include styleboard;
+    @include styleboardClassic;
     padding: 10px;
 }
 
+button {
+    @include button;
+    width: 50px;
+    height: 50px;
+}
+
+input {
+    width: 100%;
+    height: 30px;
+}
 
 .barreExperience {
     border-radius: 50px;
     border: 1px solid white;
     background-color: black;
     overflow: hidden;
-    width: 50%;
+    width: 75%;
     height: 15px;
 
     .currentExperience {
@@ -34,3 +53,66 @@ article {
         height: 15px;
     }
 }
+
+
+.slider {
+
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 2fr 1fr;
+    transition: transform 1s ease;
+
+    .slider-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        width: 100%;
+        margin: auto;
+        justify-content: space-around;
+        padding: 10px;
+
+        width: 50%;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+    }
+    
+    .slider-arrow {
+        margin: auto;
+        cursor: pointer;
+    }
+  }
+  
+  
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-out {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+  
+  .slide-in {
+    animation: slide-in 1s ease forwards;
+  }
+  
+  .slide-out {
+    animation: slide-out 1s ease forwards;
+  }
+  

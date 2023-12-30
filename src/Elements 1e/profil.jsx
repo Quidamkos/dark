@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // ----------------------------------------------- importer les pages JSX
 
 import { calculateLevel, experienceForLevel } from '../Functions/utilitaire.jsx';
+import OtherPlayers from '../OtherPlayer.jsx';
 import ExportLocalStorage from '../Elements 2e/export.jsx';
 
 // ----------------------------------------------- importer outils
@@ -78,13 +79,7 @@ function Profil() {
       {viewRank ? (
         <div className='profil'>
           <article className='otherplayers'>
-            <div><FontAwesomeIcon icon={faCaretLeft} /></div>
-            <div>
-                <img className='img-otherplayers' src={personna} alt='' />
-                <p> Inconnu </p>
-                <p>niveau : {level + 1}</p> {/* Remplacer par la logique appropriée */}
-            </div>
-            <div><FontAwesomeIcon icon={faCaretRight} /></div>
+            <OtherPlayers/>
           </article>
 
           <article className='player'>
@@ -98,7 +93,7 @@ function Profil() {
                 <p>{nickname || 'pseudo'}</p>
                 </div>
                 <BarreExperience experience={experience} level={level} />
-                <p>Argent: {money}€</p>
+                <p>Argent: {money}</p>
                 <button className='ImpBtn' onClick={changeViewSettings}>
                   <FontAwesomeIcon icon={faGear} />
                 </button>
@@ -139,7 +134,7 @@ function Profil() {
                   Supprimer les données
                 </button>
                 <button className='ImpBtn' onClick={changeViewSettings}>
-                  <FontAwesomeIcon icon={faGear} />
+                  <FontAwesomeIcon  icon={faGear} />
                 </button>
               </div>
             )}

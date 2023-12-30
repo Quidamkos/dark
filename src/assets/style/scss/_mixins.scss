@@ -6,6 +6,11 @@
     border-radius: 8px;
 }
 
+@mixin styleboardClassic {
+  background: rgb(236, 236, 236);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
 @mixin wallpaper {
   /* Add your background pattern here */
   background-image: repeating-radial-gradient(  #0c0a0a 80%,#2f312f 90%,#3f4549 90%);
@@ -15,6 +20,7 @@
 @mixin button {
   background-color: transparent;
   outline: 0;
-  border: 0;
+  border: 1px solid;
+  border-radius: 10%;
 }
   

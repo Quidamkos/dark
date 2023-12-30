@@ -26,19 +26,33 @@ function List() {
     
 
     const getTasksForCategory = (category) => {
-        switch (category) {
-            case 'En retard':
-                return tasks.filter(task => isPast(new Date(task.startDate)) && !isToday(new Date(task.startDate)));
-            case 'Aujourd\'hui':
-                return tasks.filter(task => isToday(new Date(task.startDate)));
-            case 'Cette semaine':
-                return tasks.filter(task => isThisWeek(new Date(task.startDate)));
-            case 'Plus tard':
-                return tasks.filter(task => !isPast(new Date(task.startDate)) && !isToday(new Date(task.startDate)) && !isThisWeek(new Date(task.startDate)));
-            default:
-                return [];
-        }
+        // Vérifier si des tâches "firsttask" existent pour aujourd'hui
+        const firstTaskTodayExists = tasks.some(task => 
+            task.importance === 'firsttask' && isToday(new Date(task.startDate))
+        );
+    
+        return tasks.filter(task => {
+            const taskDate = new Date(task.startDate);
+            switch (category) {
+                case 'En retard':
+                    return isPast(taskDate) && !isToday(taskDate) && (!firstTaskTodayExists || task.importance === 'secondtask');
+                case 'tout':
+                    return (!firstTaskTodayExists || task.importance === 'secondtask');
+                case 'Aujourd\'hui':
+                    if (firstTaskTodayExists) {
+                        return isToday(taskDate) && task.importance === 'firsttask';
+                    }
+                    return isToday(taskDate);
+                case 'Cette semaine':
+                    return isThisWeek(taskDate, { weekStartsOn: 1 }) && (!firstTaskTodayExists || task.importance === 'secondtask');
+                case 'Plus tard':
+                    return !isPast(taskDate) && !isToday(taskDate) && !isThisWeek(taskDate, { weekStartsOn: 1 }) && (!firstTaskTodayExists || task.importance === 'secondtask');
+                default:
+                    return [];
+            }
+        });
     };
+    
 
     const validateTask = (taskIdToValidate) => {
         const taskIndex = tasks.findIndex(task => task.id === taskIdToValidate);
@@ -106,8 +120,8 @@ function List() {
                 <p>{task.category}</p>
                 <p>{task.type}</p>
                 <p>{task.startTime}</p>
-                <p>{task.experience} exp</p>
-                <p>{task.money} <FontAwesomeIcon icon={faCoins} /></p>
+                <p>{task.experience || '0'} exp</p>
+                <p>{task.money || '0'} <FontAwesomeIcon icon={faCoins} /></p>
                 <div>
                   <button className='taskBtn' onClick={() => validateTask(task.id)}>
                     <FontAwesomeIcon icon={faCheck} />
@@ -125,6 +139,7 @@ function List() {
             <h2 className='titre'>Liste des tâches</h2>
             <select onChange={handleCategoryChange} value={selectedCategory}>
                 <option value="En retard">En retard</option>
+                <option value="tout">toutes les taches</option>
                 <option value="Aujourd'hui">Aujourd'hui</option>
                 <option value="Cette semaine">Cette semaine</option>
                 <option value="Plus tard">Plus tard</option>

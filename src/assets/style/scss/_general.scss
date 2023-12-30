@@ -10,12 +10,31 @@ main {
             grid-template-rows: 20% 80%;
             
             .otherplayers {
-                display: grid;
-                grid-template-columns: 10% 80% 10%;
+
+                img {width: 75px;}
             }
             
             .player {
+                padding: 50px 10px;
                 
+                .container-player {
+                        display: grid;
+                        justify-content: center;
+                        width: 100%;
+                        height: 100%;
+                        grid-template-rows: 30% repeat(7, calc(70%/7));
+                        text-align: center;
+                        
+                        img, .timer, .div-container, button {
+                            display: flex;
+                            width: 100px;
+                            justify-content: center;
+                            align-items: center;
+                            margin: auto;
+                            gap: 10px;
+                        }
+                }
+
             }
     
         }                

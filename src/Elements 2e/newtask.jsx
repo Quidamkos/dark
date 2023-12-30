@@ -8,8 +8,9 @@ function Newtask() {
 
   const [showRepeat, setShowRepeat] = useState(!false);
   const [showAllDay, setShowAllDay] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('');
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedImportance, setSelectedImportance] = useState('firstTask');
   const [selectedOption, setSelectedOption] = useState('only');
   
   const changeViewTask = () => {
@@ -29,6 +30,7 @@ function Newtask() {
 
   const [taskDetails, setTaskDetails] = useState({
 
+    importance: '',
     startDate: '',
     type: '',
     Category: '',
@@ -47,30 +49,21 @@ function Newtask() {
 
   });
 
-  const handleInputChange = (event) => {
+    const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
 
-
-  
     if (type === 'checkbox') {
-      setTaskDetails((prevDetails) => ({
-        ...prevDetails,
-        [name]: checked,
-      }));
-      
+      setTaskDetails(prevDetails => ({ ...prevDetails, [name]: checked }));
     } else {
-      setTaskDetails((prevDetails) => ({
-        ...prevDetails,
-        [name]: value,
-      }));
-    }
-  
-    if (name === 'Period') {
-      setSelectedOption(value);
-    }
+      setTaskDetails(prevDetails => ({ ...prevDetails, [name]: value }));
 
-    if (name === 'Category') {
-      setSelectedOption(value);
+      if (name === 'importance') {
+        setSelectedImportance(value);
+      } else if (name === 'Period') {
+        setSelectedOption(value);
+      } else if (name === 'Category') {
+        setSelectedCategory(value);
+      }
     }
   };
   
@@ -90,6 +83,7 @@ function Newtask() {
     // Mettre à jour repSave et Period avant de sauvegarder
     const updatedTaskDetails = {
       ...taskDetails,
+      importance: selectedImportance,
       repSave: taskDetails.repDay,
       Period: selectedOption, // Assurez-vous que cela reflète la sélection actuelle
       category: selectedCategory,
@@ -149,6 +143,7 @@ function Newtask() {
       category: newCategory // Assurez-vous que la clé 'category' est correcte
     }));
   };
+  
 
   return (
     <div className="newTask-article">
@@ -169,6 +164,15 @@ function Newtask() {
                 {categories.map((category, index) => (
                   <option key={index} value={category}>{category}</option>
                 ))}
+              </select>
+
+              <select
+                name="importance"
+                value={selectedImportance} 
+                onChange={handleInputChange}
+              >
+                <option value="firstTask">primaire</option>
+                <option value="secondTask">secondaire</option>
               </select>
 
                 <input 
